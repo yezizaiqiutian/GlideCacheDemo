@@ -38,15 +38,19 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.id_btn_download:
+                //缓存图片
                 GlideUtils.cacheImage(imageUrl, mContext, new MyGlideCacheListener());
                 break;
             case R.id.id_btn_havecache:
+                //是否有缓存
                 T.S(mActivity, GlideUtils.haveCache(mContext, imageUrl) ? "有缓存" : "无缓存");
                 break;
             case R.id.id_btn_getcache:
+                //读取有缓存
                 T.S(mActivity, GlideUtils.getCache(mContext, imageUrl) + "");
                 break;
             case R.id.id_btn_showimageonlycache:
+                //只从缓存中读取
                 Glide.with(mActivity).load(GlideUtils.getCache(mContext, imageUrl)).into(id_iv_showimage);
                 break;
         }
