@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 T.S(mActivity, GlideUtils.haveCache(mContext, imageUrl) ? "有缓存" : "无缓存");
                 break;
             case R.id.id_btn_getcache:
-                S(mActivity, GlideUtils.getCache(mContext, imageUrl) + "");
+                T.S(mActivity, GlideUtils.getCache(mContext, imageUrl) + "");
                 break;
             case R.id.id_btn_showimageonlycache:
                 Glide.with(mActivity).load(GlideUtils.getCache(mContext, imageUrl)).into(id_iv_showimage);
