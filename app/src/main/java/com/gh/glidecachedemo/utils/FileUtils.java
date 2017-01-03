@@ -24,4 +24,17 @@ public class FileUtils {
 
         return true;
     }
+    //判断文件是否存在
+    public static boolean fileIsExists(File f) {
+        try {
+            if (!f.exists()) {
+                return false;
+            }
+
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
 }

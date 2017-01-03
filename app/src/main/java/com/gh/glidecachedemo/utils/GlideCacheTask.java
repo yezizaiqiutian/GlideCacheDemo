@@ -45,27 +45,32 @@ public class GlideCacheTask extends AsyncTask<String, Void, File> {
     @Override
     protected File doInBackground(String... params) {
         imgUrl = params[0];
+        File oldfile;
+        File newfile = new File(cacheFile+ Md5.getFileName(imgUrl));
         try {
-            return Glide.with(context)
+            oldfile = Glide.with(context)
                     .load(imgUrl)
                     .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .get();
+//            throw new NullPointerException();
         } catch (Exception ex) {
-            return null;
+            if (listener != null) {
+                listener.error(ex);
+            }
+            oldfile = null;
         }
+        if (oldfile != null) {
+            //将缓存文件copy, 命名为图片格式文件
+//        copyFile(path, Environment.getExternalStorageDirectory().getAbsolutePath() + "/#gh/"+ Md5.getFileName(imgUrl));
+//        copyFile(path, context.getExternalCacheDir()+ Md5.getFileName(imgUrl));
+            copyFile(oldfile.getAbsolutePath(), newfile.getAbsolutePath());
+        }
+        return newfile;
     }
 
     @Override
     protected void onPostExecute(File result) {
-        if (result == null) {
-            return;
-        }
-        //此path就是对应文件的缓存路径
-        String path = result.getPath();
-        //将缓存文件copy, 命名为图片格式文件
-//        copyFile(path, Environment.getExternalStorageDirectory().getAbsolutePath() + "/#gh/"+ Md5.getFileName(imgUrl));
-//        copyFile(path, context.getExternalCacheDir()+ Md5.getFileName(imgUrl));
-        copyFile(path, cacheFile+ Md5.getFileName(imgUrl));
+
     }
 
     /**
@@ -89,6 +94,7 @@ public class GlideCacheTask extends AsyncTask<String, Void, File> {
                     listener.success(newPath);
                 }
             }
+//            throw new RuntimeException();
         }
         catch (Exception e) {
             if (listener != null) {
