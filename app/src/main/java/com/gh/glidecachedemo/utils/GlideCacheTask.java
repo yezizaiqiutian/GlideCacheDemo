@@ -85,13 +85,17 @@ public class GlideCacheTask extends AsyncTask<String, Void, File> {
                 InputStream inStream = new FileInputStream(oldPath);
                 FileOutputStream fs = new FileOutputStream(newPath);
                 byte[] buffer = new byte[1024];
-                while ( (byteRead = inStream.read(buffer)) != -1) {
+                while ((byteRead = inStream.read(buffer)) != -1) {
                     fs.write(buffer, 0, byteRead);
                 }
                 inStream.close();
 
                 if (listener != null) {
                     listener.success(newPath);
+                }
+            } else {
+                if (listener != null) {
+                    listener.error(new NullPointerException("没有找到源文件"));
                 }
             }
 //            throw new RuntimeException();
